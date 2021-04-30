@@ -1,23 +1,42 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+const ExploreMusic=()=>import('../views/subViews/exploreMusic/ExploreMusic')
+const NewMusic=()=>import('../views/subViews/newMusic/NewMusic')
+const NewMV=()=>import('../views/subViews/newMV/NewMV')
+const SongList=()=>import('../views/subViews/songList/SongList')
+
+
+// 避免点击同一位置的location重复报错
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    {
+        path:'',
+        redirect:'/explore'
+    },
+    {
+        path:'/explore',
+        component:ExploreMusic
+    },
+    {
+        path:'/newMusic',
+        component:NewMusic
+    },
+    {
+        path:'/newMV',
+        component:NewMV
+    },
+    {
+        path:'/songList',
+        component:SongList
+    },
 ]
 
 const router = new VueRouter({
